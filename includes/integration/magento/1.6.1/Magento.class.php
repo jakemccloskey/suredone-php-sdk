@@ -8,8 +8,8 @@ class Magento {
     protected $sd_username;
     protected $sd_token;
 
-    public function __construct($sd_username, $sd_token) {
-
+    public function __construct($sd_username, $sd_token, $magento-host) {
+        $this->client = new SoapClient($magento-host.'api/soap?wsdl');
     }
 
     public function sync_orders() {
