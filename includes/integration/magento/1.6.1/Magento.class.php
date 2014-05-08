@@ -29,6 +29,16 @@ class Magento {
 
     public function sync() {
         $this->get_categories();
+        /*
+        $this->put_category(3, array(
+            'name'=>'Newopenerp',
+            'is_active'=>1,
+            'include_in_menu'=>1,
+            'available_sort_by'=>array('price'),
+            'default_sort_by'=>'price',
+            'is_active'=>1,
+            )
+        );*/
     }
 
     private function get_categories(){
