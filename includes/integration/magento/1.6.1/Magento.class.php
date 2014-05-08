@@ -23,12 +23,14 @@ class Magento {
     }
 
     public function sync() {
-        $result = $this->client->resources($this->session);
-        var_dump($result);
+        //$result = $this->client->resources($this->session);
+        //var_dump($result);
+        $this->get_categories();
     }
 
     private function get_categories(){
-
+        $result = $this->client->catalogCategoryTree($this->session);
+        var_dump($result); 
     } 
 }
 ?>
