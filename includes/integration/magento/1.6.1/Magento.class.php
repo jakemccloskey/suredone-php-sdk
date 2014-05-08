@@ -23,13 +23,37 @@ class Magento {
     }
 
     public function sync() {
-        //$result = $this->client->resources($this->session);
-        //var_dump($result);
-        $this->get_categories();
+        //$this->get_categories();
+        $this->put_category(3, array(
+                'name'=>'Newopenerp',
+                'is_active'=>1,
+                'include_in_menu'=>1,
+                'available_sort_by'=>'position',
+                //'default_sort_by'=>'position',
+            )
+        );
+
     }
 
     private function get_categories(){
+        //http://www.magentocommerce.com/wiki/doc/webservices-api/catalog_category#catalog_category.tree
         $result = $this->client->catalogCategoryTree($this->session);
+        var_dump($result); 
+    }
+
+    /**
+     * put_category
+     * 
+     * Creates new category in magento from given data
+     * More reading: http://www.magentocommerce.com/wiki/doc/webservices-api/catalog_category#catalog_category.create
+     * 
+     *  @param int parentId default=0, parent category
+     *  @param array categoryData  array(’attribute_code’⇒‘attribute_value’ )
+     *  @param mixed $storeView - store view ID or code (optional)
+     * 
+     */ 
+    private function put_category($parentId=0, $categoryData=[], $storeView=null){
+        $result = $this->client->catalogCategoryCreate($this->session, $parentId, $categoryData, $storeView);
         var_dump($result); 
     } 
 }
