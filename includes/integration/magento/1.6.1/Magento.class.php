@@ -18,13 +18,13 @@ class Magento {
         $this->magento_host = $magento_host;
         $this->magento_user = $magento_user;
         $this->magento_apikey = $magento_apikey;
-        $this->client = new SoapClient($magento_host.'api/soap?wsdl');
+        $this->client = new SoapClient($magento_host.'api/v2_soap?wsdl=1');
         $this->session = $this->client->login($this->magento_user, $this->magento_apikey);
     }
 
     public function sync() {
-        $result = $this->client->call('resources',array($this->session));
-        echo $result;
+        $result = $this->client->resources($this->session);
+        var_dump($result);
     }
 
     private function get_categories(){
