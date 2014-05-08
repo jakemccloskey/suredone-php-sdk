@@ -28,7 +28,7 @@ class Magento {
                 'name'=>'Newopenerp',
                 'is_active'=>1,
                 'include_in_menu'=>1,
-                'available_sort_by'=>'position',
+                'available_sort_by'=>'price',
                 //'default_sort_by'=>'position',
             )
         );
