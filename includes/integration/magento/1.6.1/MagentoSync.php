@@ -10,11 +10,13 @@
 
 require_once(dirname(__FILE__).'/Magento.class.php');
 
-if (strpos($_SERVER["SCRIPT_FILENAME"], 'Magento.php') !== false) {
+if (strpos($_SERVER["SCRIPT_FILENAME"], 'MagentoSync.php') !== false) {
     $required = array(
         'sd-username',
         'sd-token',
         'magento-host',
+        'magento-user', 
+        'magento-apikey',
     );
     $longopts  = array();
     foreach($required as $field) {
@@ -32,7 +34,8 @@ if (strpos($_SERVER["SCRIPT_FILENAME"], 'Magento.php') !== false) {
         die();
     }
 
-    $suite = new Magento($options['sd-username'],$options['sd-token'], $options['magento-host']);
-    $suite->sync();
+    $magento = new Magento($options['sd-username'],$options['sd-token'], 
+        $options['magento-host'], $options['magento-user'], $options['magento-apikey']);
+    $magento->sync();
 }
 ?>
