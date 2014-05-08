@@ -20,11 +20,15 @@ class Magento {
         $this->magento_apikey = $magento_apikey;
         $this->client = new SoapClient($magento_host.'api/soap?wsdl');
         $this->session = $this->client->login($this->magento_user, $this->magento_apikey);
-        echo $this;
     }
 
-    public function sync_orders() {
-        echo "placeholder function";
+    public function sync() {
+        $result = $this->client->call('resources',array($this->session));
+        echo $result;
     }
+
+    private function get_categories(){
+
+    } 
 }
 ?>
