@@ -11,6 +11,7 @@ class Magento {
     protected $magento_user;
     protected $magento_apikey;
     protected $session;
+    protected $debug = True;
 
     public function __construct($sd_username, $sd_token, $magento_host, $magento_user, $magento_apikey) {
         $this->sd_username = $sd_username;
@@ -18,21 +19,16 @@ class Magento {
         $this->magento_host = $magento_host;
         $this->magento_user = $magento_user;
         $this->magento_apikey = $magento_apikey;
-        $this->client = new SoapClient($magento_host.'api/v2_soap?wsdl=1');
+        $options = [];
+        if ($this->debug){
+            $options = array('trace' => 1);
+        }
+        $this->client = new SoapClient($magento_host.'api/v2_soap?wsdl=1', $options);
         $this->session = $this->client->login($this->magento_user, $this->magento_apikey);
     }
 
     public function sync() {
-        //$this->get_categories();
-        $this->put_category(3, array(
-                'name'=>'Newopenerp',
-                'is_active'=>1,
-                'include_in_menu'=>1,
-                'available_sort_by'=>'price',
-                //'default_sort_by'=>'position',
-            )
-        );
-
+        $this->get_categories();
     }
 
     private function get_categories(){
@@ -53,7 +49,28 @@ class Magento {
      * 
      */ 
     private function put_category($parentId=0, $categoryData=[], $storeView=null){
-        $result = $this->client->catalogCategoryCreate($this->session, $parentId, $categoryData, $storeView);
+        /**
+         *  example call:   
+         *  $this->put_category(3, array(
+         *      'name'=>'Newopenerp',
+         *      'is_active'=>1,
+         *      'include_in_menu'=>1,
+         *      'available_sort_by'=>array('price'),
+         *      'default_sort_by'=>'price',
+         *      'is_active'=>1,
+         *       )
+         *   );
+         */
+        $data = array('parentId'=>$parentId, 'categoryData' => $categoryData, 'storeView' => $storeView); //placeholder for now
+        try{ 
+            $result = $this->client->catalogCategoryCreate($this->session, $parentId, $categoryData, $storeView);
+        }catch(SoapFault $fault){ 
+            // <xmp> tag displays xml output in html 
+            echo 'Request : <br/><xmp>', 
+            $this->client->__getLastRequest(), 
+            '</xmp><br/><br/> Error Message : <br/>', 
+            $fault->getMessage();
+        }
         var_dump($result); 
     } 
 }
