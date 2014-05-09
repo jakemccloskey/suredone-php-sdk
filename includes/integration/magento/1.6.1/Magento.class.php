@@ -43,10 +43,26 @@ class Magento {
             )
         );*/
         // works!
-        // $products = $this->get_all_products();
+        //$products = $this->get_all_products();
         // var_dump($products);
 
-        $product = $this->put_product('simple', 1101, 'example sku', array('name'=>'test product', 'description' =>'test_description'));
+        // works!
+        /*
+        $ProductData = array(
+            'name'              => 'name of product',
+             // websites - Array of website ids to which you want to assign a new product
+            'websites'          => array(1), // array(1,2,3,...)
+            'short_description' => 'short description',
+            'description'       => 'description',
+            'status'            => 1,
+            'weight'            => 0,
+            'tax_class_id'      => 1,
+            'categories'    => array(3),    //3 is the category id   
+            'price'             => 12.05
+        );
+        $product = $this->put_product('simple', 38, 'name of prod sku arabella'.time(), $ProductData);
+        var_dump($product);
+        */
     }
 
     /**
@@ -150,14 +166,15 @@ class Magento {
      * More reading: http://www.magentocommerce.com/wiki/doc/webservices-api/api/catalog_product#catalog_product.create
      * 
      * @param string product_type http://www.magentocommerce.com/wiki/modules_reference/english/mage_adminhtml/catalog_product/producttype
-     * @param int id
-     * @param string sku
+     * @param int set - product attribute set ID - whatever it is, causes problems. Products has set's, it has to exists prior to creating product.
+     * @param string sku - unique
      * @param array productData
      * 
      * @return int newly created product id
      * 
      */
     private function put_product($productType='simple', $id, $sku, $productData){
+        //var_dump($productData);
         try{
             $result = $this->client->catalogProductCreate($this->session, $productType, $id, $sku, $productData); //gets all products
             return $result;
