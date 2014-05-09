@@ -31,9 +31,6 @@ class Magento {
         // works!
         //$categories = $this->get_categories();
         //var_dump($categories);
-        // works!
-        // $products = $this->get_all_products();
-        // var_dump($products);
         /*
         // works!
         $this->put_category(3, array(
@@ -45,6 +42,11 @@ class Magento {
             'is_active'=>1,
             )
         );*/
+        // works!
+        // $products = $this->get_all_products();
+        // var_dump($products);
+
+        $product = $this->put_product('simple', 1101, 1100101, array('name'=>'test product', 'description' =>'test_description'));
     }
 
     /**
@@ -135,6 +137,30 @@ class Magento {
                 $results[] = $product;
             }
             return $results;
+        }catch(SoapFault $fault){ 
+            $this->throw_soap_error($fault);
+        }
+    }
+
+    /**
+     * put_product
+     * 
+     * put single product (not update!)
+     * 
+     * More reading: http://www.magentocommerce.com/wiki/doc/webservices-api/api/catalog_product#catalog_product.create
+     * 
+     * @param string product_type http://www.magentocommerce.com/wiki/modules_reference/english/mage_adminhtml/catalog_product/producttype
+     * @param int id
+     * @param string sku
+     * @param array productData
+     * 
+     * @return int newly created product id
+     * 
+     */
+    private function put_product($product_type='simple', $id, $sku, $productData){
+        try{
+            $result = $this->client->catalogProductCreate($this->session, $id, $sku, $productData); //gets all products
+            return $result;
         }catch(SoapFault $fault){ 
             $this->throw_soap_error($fault);
         }
