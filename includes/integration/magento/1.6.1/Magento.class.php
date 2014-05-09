@@ -28,8 +28,10 @@ class Magento {
     }
 
     public function sync() {
-        $this->get_categories();
+        $categories = $this->get_categories();
+        var_dump($categories);
         /*
+        // works!
         $this->put_category(3, array(
             'name'=>'Newopenerp',
             'is_active'=>1,
@@ -41,10 +43,37 @@ class Magento {
         );*/
     }
 
+    /**
+     * throw_soap_error
+     *
+     * Helper for handling soap errors 
+     * 
+     * @param SoapFault $fault
+     * 
+     * @return void
+     */
+    private function throw_soap_error($fault){
+        echo 'Request : <br/><xmp>', 
+        $this->client->__getLastRequest(), 
+        '</xmp><br/><br/> Error Message : <br/>', 
+        $fault->getMessage();
+    }
+    /**
+     * get_categories
+     * 
+     * Get's category tree
+     * More reading: http://www.magentocommerce.com/wiki/doc/webservices-api/catalog_category#catalog_category.tree
+     * 
+     * @return array
+     * 
+     */
     private function get_categories(){
-        //http://www.magentocommerce.com/wiki/doc/webservices-api/catalog_category#catalog_category.tree
-        $result = $this->client->catalogCategoryTree($this->session);
-        var_dump($result); 
+        try{ 
+            $result = $this->client->catalogCategoryTree($this->session);
+            return $result;
+        }catch(SoapFault $fault){ 
+            $this->throw_soap_error($fault);
+        }
     }
 
     /**
@@ -56,6 +85,8 @@ class Magento {
      *  @param int parentId default=0, parent category
      *  @param array categoryData  array(’attribute_code’⇒‘attribute_value’ )
      *  @param mixed $storeView - store view ID or code (optional)
+     * 
+     * @return int new category id.
      * 
      */ 
     private function put_category($parentId=0, $categoryData=[], $storeView=null){
@@ -75,13 +106,8 @@ class Magento {
         try{ 
             $result = $this->client->catalogCategoryCreate($this->session, $parentId, $categoryData, $storeView);
         }catch(SoapFault $fault){ 
-            // <xmp> tag displays xml output in html 
-            echo 'Request : <br/><xmp>', 
-            $this->client->__getLastRequest(), 
-            '</xmp><br/><br/> Error Message : <br/>', 
-            $fault->getMessage();
+            $this->throw_soap_error($fault);
         }
-        var_dump($result); 
     } 
 }
 ?>
