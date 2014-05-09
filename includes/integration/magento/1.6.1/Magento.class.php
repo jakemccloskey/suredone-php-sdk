@@ -28,10 +28,12 @@ class Magento {
     }
 
     public function sync() {
+        // works!
         //$categories = $this->get_categories();
         //var_dump($categories);
-        $products = $this->get_all_products();
-        var_dump($products);
+        // works!
+        // $products = $this->get_all_products();
+        // var_dump($products);
         /*
         // works!
         $this->put_category(3, array(
@@ -126,8 +128,13 @@ class Magento {
      */
     private function get_all_products(){
         try{ 
-            $result = $this->client->catalogProductList($this->session);
-            return result;
+            $results = [];
+            $products = $this->client->catalogProductList($this->session); //gets all products
+            foreach ($products as $p){
+                $product = $this->client->catalogProductInfo($this->session, $p->product_id); //gets single product
+                $results[] = $product;
+            }
+            return $results;
         }catch(SoapFault $fault){ 
             $this->throw_soap_error($fault);
         }
