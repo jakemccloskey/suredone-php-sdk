@@ -46,7 +46,7 @@ class Magento {
         // $products = $this->get_all_products();
         // var_dump($products);
 
-        $product = $this->put_product('simple', 1101, 1100101, array('name'=>'test product', 'description' =>'test_description'));
+        $product = $this->put_product('simple', 1101, 'example sku', array('name'=>'test product', 'description' =>'test_description'));
     }
 
     /**
@@ -157,9 +157,9 @@ class Magento {
      * @return int newly created product id
      * 
      */
-    private function put_product($product_type='simple', $id, $sku, $productData){
+    private function put_product($productType='simple', $id, $sku, $productData){
         try{
-            $result = $this->client->catalogProductCreate($this->session, $id, $sku, $productData); //gets all products
+            $result = $this->client->catalogProductCreate($this->session, $productType, $id, $sku, $productData); //gets all products
             return $result;
         }catch(SoapFault $fault){ 
             $this->throw_soap_error($fault);
