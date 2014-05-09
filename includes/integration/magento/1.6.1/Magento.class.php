@@ -28,8 +28,10 @@ class Magento {
     }
 
     public function sync() {
-        $categories = $this->get_categories();
-        var_dump($categories);
+        //$categories = $this->get_categories();
+        //var_dump($categories);
+        $products = $this->get_all_products();
+        var_dump($products);
         /*
         // works!
         $this->put_category(3, array(
@@ -102,12 +104,33 @@ class Magento {
          *       )
          *   );
          */
-        $data = array('parentId'=>$parentId, 'categoryData' => $categoryData, 'storeView' => $storeView); //placeholder for now
+        //$data = array('parentId'=>$parentId, 'categoryData' => $categoryData, 'storeView' => $storeView); //placeholder for now
         try{ 
             $result = $this->client->catalogCategoryCreate($this->session, $parentId, $categoryData, $storeView);
+            return result;
         }catch(SoapFault $fault){ 
             $this->throw_soap_error($fault);
         }
-    } 
+    }
+
+    /**
+     * get_products
+     * 
+     * Get all products. 
+     * More reading: http://www.magentocommerce.com/wiki/doc/webservices-api/api/catalog_product#catalog_product.list
+     * 
+     * @param void
+     * 
+     * @return array
+     * 
+     */
+    private function get_all_products(){
+        try{ 
+            $result = $this->client->catalogProductList($this->session);
+            return result;
+        }catch(SoapFault $fault){ 
+            $this->throw_soap_error($fault);
+        }
+    }
 }
 ?>
