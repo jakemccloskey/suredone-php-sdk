@@ -143,7 +143,7 @@ class SureDone_Store {
 
 
         // call the validatio method
-        self::validateCall('seach', $params, $authToken, $user);
+        self::validateCall('search', $params, $authToken, $user);
         // instantiate the APIRequirestor which calls the API method, receives the JSON response and decodes response to create result array
 
         $requestor = new SureDone_ApiRequestor($authToken, $user);
