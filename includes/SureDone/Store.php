@@ -229,7 +229,6 @@ class SureDone_Store {
         // instantiate the APIRequirestor which calls the API method, receives the JSON response and decodes response to create result array
 
 		$params = array('json' => json_encode($params));
-
         $requestor = new SureDone_ApiRequestor($authToken, $user);
 		$url = 'v1/editor/' . $type . '/' . $action  ;
         // call the POST method for the API call

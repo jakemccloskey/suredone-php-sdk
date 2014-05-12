@@ -16,19 +16,19 @@ ini_set('display_errors', 1);
 require_once(dirname(__FILE__).'/../includes/SureDone_Startup.php');
 $token = "452B9137D17FDF14482E87BB78FB1781B3A854CCF1399D43EF5983D44414FDA48162106218EF830C6J1ONVAVKW5LVCN9U8FQA023ULATCFNSRLYJGUOWA1MZON0XEX82MJDU4YXHXJPKURBP2HQBJCTGS10WTQ55OHZVFGLRQ480";
 $username = 'yd';
-//this gets all categories. Null is important. No nesting.
-//$result = SureDone_Store::get_editor_single_object_by_id('categories', null, $token, $username);
-//this also gets all categories. w/o nesting
 //public static function post_editor_data($type = null, $action = null,  $params = null, $authToken = null, $user = null) {
 $params = array(
-    'cid' => 11,
+    'identifier' => 'sku',
+    'sku' => '456',
+    'title' => 'claims to be required',
+    'level' => 0,
     'name' => 'name api created test category',
     'label' => 'label api created test category',
     'navdisplay' => true,
     'description' => 'description lorem ipsum',
     'longdescription' => 'longdescription lorem ipsum',
 );
-$result = SureDone_Store::post_editor_data('categories', 'add', $params, $token, $username);
+$result = SureDone_Store::post_editor_data('items', 'add', $params, $token, $username);
 print_r($result);
 var_dump(count($result));
 
