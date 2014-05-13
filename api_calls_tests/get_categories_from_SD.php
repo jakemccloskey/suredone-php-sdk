@@ -8,8 +8,15 @@ $username = 'yd';
 //this gets all categories. Null is important. No nesting.
 //$result = SureDone_Store::get_editor_single_object_by_id('categories', null, $token, $username);
 //this also gets all categories. w/o nesting
-$result = SureDone_Store::editor_objects('categories', null, null, $token, $username);
-print_r($result);
-var_dump(count($result));
+try{ 
+    $result = SureDone_Store::editor_objects('categories', null, null, $token, $username);
+    echo '<pre>';
+    var_dump(json_decode($result));
+}catch(SoapFault $fault){ 
+    echo 'Request : <br/><xmp>', 
+    $this->client->__getLastRequest(), 
+    '</xmp><br/><br/> Error Message : <br/>', 
+    $fault->getMessage();
+}
 
 ?>

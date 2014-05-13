@@ -23,16 +23,16 @@ $params = array(
     'sku' => '456',
     'title' => 'claims to be required',
     'level' => 0,
-    'name' => 'name api created test category',
-    'label' => 'label api created test category',
+    'name' => 'name api created test product',
+    'label' => 'label api created test product',
     'navdisplay' => true,
     'description' => 'description lorem ipsum',
     'longdescription' => 'longdescription lorem ipsum',
 );
 try{
     $result = SureDone_Store::post_editor_data('items', 'add', $params, $token, $username);
-    print_r($result);
-    var_dump(count($result));
+    echo '<pre>';
+    var_dump(json_decode($result));
 }catch(SoapFault $fault){ 
     echo 'Request : <br/><xmp>', 
     $this->client->__getLastRequest(), 

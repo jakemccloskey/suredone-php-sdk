@@ -30,8 +30,8 @@ $params = array(
 );
 try{ 
     $result = SureDone_Store::post_editor_data('categories', 'add', $params, $token, $username);
-    print_r($result);
-    var_dump(count($result));
+    echo '<pre>';
+    var_dump(json_decode($result));
 }catch(SoapFault $fault){ 
     echo 'Request : <br/><xmp>', 
     $this->client->__getLastRequest(), 
