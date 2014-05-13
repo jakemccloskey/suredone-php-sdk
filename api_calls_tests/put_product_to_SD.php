@@ -20,7 +20,7 @@ $username = 'yd';
 /** code below nicely adds product to SD. The same should work for category but somehow does not */
 $params = array(
     'identifier' => 'sku',
-    'sku' => '460',
+    'sku' => '461',
     'category1' => 'test',
     'title' => 'product by api with prices',
     'name' => 'product by api with prices',
@@ -34,6 +34,7 @@ $params = array(
     //'is_repriced' => false, //no idea if this is used or what
     'ebayprice' => 12,
     'amznprice' => 13,
+    'stock' => 11,
 );
 try{
     $result = SureDone_Store::post_editor_data('items', 'add', $params, $token, $username);
