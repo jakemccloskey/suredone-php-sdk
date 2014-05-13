@@ -15,7 +15,6 @@ try{
     $result = (array)json_decode(SureDone_Store::get_editor_single_object_by_sku('items', $sku, $token, $username));
     echo '<pre>';
     var_dump($result);
-    var_dump(count($result));
 }catch(SoapFault $fault){ 
     echo 'Request : <br/><xmp>', 
     $this->client->__getLastRequest(), 
