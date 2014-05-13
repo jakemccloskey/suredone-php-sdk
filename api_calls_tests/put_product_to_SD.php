@@ -29,8 +29,15 @@ $params = array(
     'description' => 'description lorem ipsum',
     'longdescription' => 'longdescription lorem ipsum',
 );
-$result = SureDone_Store::post_editor_data('items', 'add', $params, $token, $username);
-print_r($result);
-var_dump(count($result));
+try{
+    $result = SureDone_Store::post_editor_data('items', 'add', $params, $token, $username);
+    print_r($result);
+    var_dump(count($result));
+}catch(SoapFault $fault){ 
+    echo 'Request : <br/><xmp>', 
+    $this->client->__getLastRequest(), 
+    '</xmp><br/><br/> Error Message : <br/>', 
+    $fault->getMessage();
+}
 
 ?>
