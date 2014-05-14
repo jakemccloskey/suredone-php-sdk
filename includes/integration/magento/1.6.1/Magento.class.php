@@ -76,7 +76,15 @@ class Magento {
          * $order = $this->get_order_info(100000001);
          * var_dump($order);
          */
-    }
+
+        /**
+         * 
+         * works! 
+         *
+         * $order = $this->add_order_comment(100000001,'Processing');
+         * var_dump($order);
+         */
+    }    
 
     /**
      * throw_soap_error
@@ -232,6 +240,31 @@ class Magento {
         //var_dump($productData);
         try{
             $result = $this->client->salesOrderList($this->session, $id); //gets all orders
+            return $result;
+        }catch(SoapFault $fault){ 
+            $this->throw_soap_error($fault);
+        }
+    }
+
+    /**
+     * 
+     * add_order_comment
+     * 
+     * More reading: http://www.magentocommerce.com/wiki/doc/webservices-api/api/sales_order#sales_order.addcomment
+     * 
+     * @param string orderIncrementId - order increment id
+     * @param string status - order status (Processing, Pending Payment, Suspected Fraud, Payment Review, Pending, 
+     *                          On Hold, Complete, Closed, Canceled, Pending PayPal) + custom options
+     * @param string comment
+     * @param string notify
+     * 
+     * @return bool
+     * 
+     */
+    private function add_order_comment($id, $status=null, $comment = null, $notify=false ){
+        //var_dump($productData);
+        try{
+            $result = $this->client->salesOrderAddComment($this->session, $id, $status, $comment, $notify);
             return $result;
         }catch(SoapFault $fault){ 
             $this->throw_soap_error($fault);
