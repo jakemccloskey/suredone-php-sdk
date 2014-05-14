@@ -8,8 +8,8 @@ $username = 'yd';
 /**
  * gets single order
  */
-try{
-    $id = 'SD13097689151110';
+try{ 
+    $id = 'SD1310979759453'; //id of shipped order
     $result = (array)json_decode(SureDone_Store::get_single_order($id, $token, $username));
     echo '<pre>';
     var_dump($result);

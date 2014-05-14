@@ -9,8 +9,8 @@ $username = 'yd';
  * update order
  */
 try{
-    $id = 'SD13097689151110';
-    $order = array('order' => $id, 'ship_service' => 'UPS-08');
+    $id = 'SD1310979759453';
+    $order = array('order' => $id, 'ship_service' => 'UPS-08', 'shiptracking' => 'update_by_api');
     $result = (array)json_decode(SureDone_Store::update_order($order, $token, $username));
     echo '<pre>';
     var_dump($result);
