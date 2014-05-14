@@ -24,7 +24,9 @@ class Magento {
             $options = array('trace' => 1);
         }
         $this->client = new SoapClient($magento_host.'api/v2_soap?wsdl=1', $options);
+        echo '1';
         $this->session = $this->client->login($this->magento_user, $this->magento_apikey);
+        echo '2';
     }
 
     public function sync() {
@@ -62,6 +64,12 @@ class Magento {
         );
         $product = $this->put_product('simple', 38, 'name of prod sku arabella'.time(), $ProductData);
         var_dump($product);
+        */
+        /**
+         * works!
+         *
+         * $orders = $this->get_all_orders();
+         * var_dump($orders);
         */
     }
 
@@ -177,6 +185,27 @@ class Magento {
         //var_dump($productData);
         try{
             $result = $this->client->catalogProductCreate($this->session, $productType, $id, $sku, $productData); //gets all products
+            return $result;
+        }catch(SoapFault $fault){ 
+            $this->throw_soap_error($fault);
+        }
+    }
+
+    /**
+     * 
+     * get_all_orders
+     * 
+     * More reading: http://www.magentocommerce.com/wiki/doc/webservices-api/api/sales_order#sales_order.list
+     * 
+     * @param array filters - filters for order list (optional)
+     * 
+     * @return array
+     * 
+     */
+    private function get_all_orders($filters = array()){
+        //var_dump($productData);
+        try{
+            $result = $this->client->salesOrderList($this->session, $filters); //gets all orders
             return $result;
         }catch(SoapFault $fault){ 
             $this->throw_soap_error($fault);
