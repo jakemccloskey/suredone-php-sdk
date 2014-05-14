@@ -24,9 +24,7 @@ class Magento {
             $options = array('trace' => 1);
         }
         $this->client = new SoapClient($magento_host.'api/v2_soap?wsdl=1', $options);
-        echo '1';
         $this->session = $this->client->login($this->magento_user, $this->magento_apikey);
-        echo '2';
     }
 
     public function sync() {
@@ -71,6 +69,13 @@ class Magento {
          * $orders = $this->get_all_orders();
          * var_dump($orders);
         */
+
+        /**
+         * works!
+         *
+         * $order = $this->get_order_info(100000001);
+         * var_dump($order);
+         */
     }
 
     /**
@@ -206,6 +211,27 @@ class Magento {
         //var_dump($productData);
         try{
             $result = $this->client->salesOrderList($this->session, $filters); //gets all orders
+            return $result;
+        }catch(SoapFault $fault){ 
+            $this->throw_soap_error($fault);
+        }
+    }
+
+    /**
+     * 
+     * get_order_info
+     * 
+     * More reading: http://www.magentocommerce.com/wiki/doc/webservices-api/api/sales_order#sales_order.info
+     * 
+     * @param string orderIncrementId - order increment id
+     * 
+     * @return array
+     * 
+     */
+    private function get_order_info($id){
+        //var_dump($productData);
+        try{
+            $result = $this->client->salesOrderList($this->session, $id); //gets all orders
             return $result;
         }catch(SoapFault $fault){ 
             $this->throw_soap_error($fault);
