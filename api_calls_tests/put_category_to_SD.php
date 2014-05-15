@@ -19,14 +19,24 @@ $username = 'yd';
 //public static function post_editor_data($type = null, $action = null,  $params = null, $authToken = null, $user = null) {
 /** code below nicely adds product to SD. The same should work for category but somehow does not */
 $params = array(
-    'category1'=>'test category via api',
+    'category1'=>'',
     'title' => 'claims to be required',
     'level' => 0,
     'name' => 'name api created test category',
     'label' => 'label api created test category',
-    'navdisplay' => true,
+    'navdisplay' => 1,
     'description' => 'description lorem ipsum',
     'longdescription' => 'longdescription lorem ipsum',
+    'uri' => 'test-uri',
+    'parenturi' => '',
+    'navorder' => 0,
+    'navtitle' => '',
+    'keywords' => '',
+    'params' => '',
+    'paramsrel' => '',
+
+
+
 );
 try{ 
     $result = SureDone_Store::post_editor_data('categories', 'add', $params, $token, $username);
