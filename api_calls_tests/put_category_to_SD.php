@@ -20,6 +20,7 @@ $username = 'yd';
 /** code below nicely adds product to SD. The same should work for category but somehow does not */
 $params = array(
     'category1'=>'test',
+    'identifier' => 'cid',
     'title' => 'claims to be required',
     'level' => 0,
     'name' => 'name api created test category',
