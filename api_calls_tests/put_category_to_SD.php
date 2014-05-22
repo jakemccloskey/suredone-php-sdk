@@ -19,7 +19,7 @@ $username = 'yd';
 //public static function post_editor_data($type = null, $action = null,  $params = null, $authToken = null, $user = null) {
 /** code below nicely adds product to SD. The same should work for category but somehow does not */
 $params = array(
-    'category1'=>'',
+    'category1'=>'test',
     'title' => 'claims to be required',
     'level' => 0,
     'name' => 'name api created test category',
