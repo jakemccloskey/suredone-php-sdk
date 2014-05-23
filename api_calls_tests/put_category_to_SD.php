@@ -19,35 +19,32 @@ $username = 'yd';
 //public static function post_editor_data($type = null, $action = null,  $params = null, $authToken = null, $user = null) {
 /** code below nicely adds product to SD. The same should work for category but somehow does not */
 $params = array(
-    'category1'=>'test',
-    'identifier' => 'cid',
-    'title' => 'claims to be required',
-    'level' => 0,
-    'name' => 'name api created test category',
-    'label' => 'label api created test category',
-    'navdisplay' => 1,
-    'description' => 'description lorem ipsum',
-    'longdescription' => 'longdescription lorem ipsum',
-    'uri' => 'test-uri',
-    'parenturi' => '',
-    'navorder' => 0,
-    'navtitle' => '',
-    'keywords' => '',
-    'params' => '',
-    'paramsrel' => '',
-
-
-
+	'identifier' => 'cid',
+	'cid' => 0,
+	'title' => 'claims to be required',
+	'level' => 1,
+	'name' => 'name api created test category',
+	'label' => 'label api created test category',
+	'navdisplay' => 1,
+	'description' => 'description lorem ipsum',
+	'longdescription' => 'longdescription lorem ipsum',
+	'uri' => 'test-uri',
+	'parenturi' => '',
+	'navorder' => 0,
+	'navtitle' => 'qwe',
+	'keywords' => '',
+// 	'params' => '',
+// 	'paramsrel' => '',
 );
-try{ 
-    $result = SureDone_Store::post_editor_data('categories', 'add', $params, $token, $username);
-    echo '<pre>';
-    var_dump(json_decode($result));
-}catch(SoapFault $fault){ 
-    echo 'Request : <br/><xmp>', 
-    $this->client->__getLastRequest(), 
-    '</xmp><br/><br/> Error Message : <br/>', 
-    $fault->getMessage();
+try{
+	$result = SureDone_Store::post_editor_data('categories', 'add', $params, $token, $username);
+	echo '<pre>';
+	var_dump(json_decode($result));
+}catch(SoapFault $fault){
+	echo 'Request : <br/><xmp>',
+	$this->client->__getLastRequest(),
+	'</xmp><br/><br/> Error Message : <br/>',
+	$fault->getMessage();
 }
 
 
