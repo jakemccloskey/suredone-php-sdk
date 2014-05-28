@@ -19,22 +19,29 @@ $username = 'yd';
 //public static function post_editor_data($type = null, $action = null,  $params = null, $authToken = null, $user = null) {
 /** code below nicely adds product to SD. The same should work for category but somehow does not */
 $params = array(
-	'identifier' 	=> 'order',
-	'order' 		=> 'M00001',
-	'total' 		=> '100.00',
-	'email' 		=> 'michal@arabel.la',
-	'bcountry' 		=> 'US',
-	'blastname' 	=> 'Michal M.',
+    'identifier' 	=> 'order',
+    'order' 		=> 'M00002',
+    'total' 		=> '100.00',
+    'email' 		=> 'michal@arabel.la',
+    'bcountry' 		=> 'US',
+    'blastname' 	=> 'Michal M.',
+    'items' =>	[
+        [
+        'title'=>'iphone 4','price'=>99.99,'quantity'=>1,
+        'image'=>'http://assets.suredone.com/1019/media-pics/md382lla-apple-iphone-4s-with-64gb-memory-mobile-phone-white.jpg',
+        'url'=>'http://demo.suredone.com/iphone-4-md382lla','weight'=>1,'boxlength'=>1,'boxheight'=>0.5,'boxlength'=>3
+        ]
+    ]
 );
 try{
-	$result = SureDone_Store::post_editor_data('orders', 'add', $params, $token, $username);
-	echo '<pre>';
-	var_dump(json_decode($result));
+    $result = SureDone_Store::post_editor_data('orders', 'add', $params, $token, $username);
+    echo '<pre>';
+    var_dump(json_decode($result));
 }catch(SoapFault $fault){
-	echo 'Request : <br/><xmp>',
-	$this->client->__getLastRequest(),
-	'</xmp><br/><br/> Error Message : <br/>',
-	$fault->getMessage();
+    echo 'Request : <br/><xmp>',
+    $this->client->__getLastRequest(),
+    '</xmp><br/><br/> Error Message : <br/>',
+    $fault->getMessage();
 }
 
 

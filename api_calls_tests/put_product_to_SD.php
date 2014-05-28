@@ -40,10 +40,10 @@ try{
     $result = SureDone_Store::post_editor_data('items', 'add', $params, $token, $username);
     echo '<pre>';
     var_dump(json_decode($result));
-}catch(SoapFault $fault){ 
-    echo 'Request : <br/><xmp>', 
-    $this->client->__getLastRequest(), 
-    '</xmp><br/><br/> Error Message : <br/>', 
+}catch(SoapFault $fault){
+    echo 'Request : <br/><xmp>',
+    $this->client->__getLastRequest(),
+    '</xmp><br/><br/> Error Message : <br/>',
     $fault->getMessage();
 }
 
