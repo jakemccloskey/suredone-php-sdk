@@ -20,7 +20,7 @@ $username = 'yd';
 /** code below nicely adds product to SD. The same should work for category but somehow does not */
 $params = array(
     'identifier' 	=> 'order',
-    'order' 		=> 'M00002',
+    'order' 		=> 'N00002',
     'total' 		=> '100.00',
     'email' 		=> 'michal@arabel.la',
     'bcountry' 		=> 'US',
@@ -33,16 +33,62 @@ $params = array(
         ]
     ]
 );
-try{
-    $result = SureDone_Store::post_editor_data('orders', 'add', $params, $token, $username);
-    echo '<pre>';
-    var_dump(json_decode($result));
-}catch(SoapFault $fault){
-    echo 'Request : <br/><xmp>',
-    $this->client->__getLastRequest(),
-    '</xmp><br/><br/> Error Message : <br/>',
-    $fault->getMessage();
-}
+// try{
+//     $result = SureDone_Store::put_order($params, $token, $username);
+//     echo '<pre>';
+//     var_dump(json_decode($result));
+// }catch(SoapFault $fault){
+//     echo 'Request : <br/><xmp>',
+//     $this->client->__getLastRequest(),
+//     '</xmp><br/><br/> Error Message : <br/>',
+//     $fault->getMessage();
+// }
 
+
+// admin
+$apihdrs=array(
+        'Content-Type: multipart/form-data',
+        'X-Auth-User: ' . $username,
+        'X-Auth-Token: ' . $token
+);
+
+$lbreq = [
+    'json' => json_encode(
+        [
+            'order' 		=> 'O00002',
+            'total' 		=> '100.00',
+            'email' 		=> 'michal@arabel.la',
+            'bcountry' 		=> 'US',
+            'blastname' 	=> 'Michal M.',
+            'items' =>	[
+                [
+                    'title'=>'iphone 4','price'=>99.99,'quantity'=>1,
+                    'image'=>'http://assets.suredone.com/1019/media-pics/md382lla-apple-iphone-4s-with-64gb-memory-mobile-phone-white.jpg',
+                    'url'=>'http://demo.suredone.com/iphone-4-md382lla','weight'=>1,'boxlength'=>1,'boxheight'=>0.5,'boxlength'=>3
+                ]
+            ]
+        ]
+    )
+];
+
+$apiendpoint='https://api.suredone.com/v1/orders/add';
+
+$sd_curl=curl_init();
+curl_setopt($sd_curl,CURLOPT_URL,$apiendpoint);
+curl_setopt($sd_curl,CURLOPT_HTTPHEADER,$apihdrs);
+curl_setopt($sd_curl,CURLOPT_SSL_VERIFYPEER,0);
+curl_setopt($sd_curl,CURLOPT_SSL_VERIFYHOST,0);
+curl_setopt($sd_curl,CURLOPT_POST,1);
+curl_setopt($sd_curl,CURLOPT_POSTFIELDS,$lbreq);
+curl_setopt($sd_curl,CURLOPT_RETURNTRANSFER,true);
+if(!$response=curl_exec($sd_curl)){
+    if(!$response=curl_exec($sd_curl)){
+        if(!$response=curl_exec($sd_curl)){trigger_error('CURL_EXEC FAILED');return false;}
+    }
+}
+curl_close($sd_curl);
+
+var_export($response);die;
 
 ?>
+

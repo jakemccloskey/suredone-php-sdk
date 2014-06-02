@@ -76,12 +76,12 @@ class SureDone_ApiRequestor {
         if (!$params)
             $params = array();
 
-		list($rbody, $rcode, $myApiKey) = $this->_requestRaw($meth, $url, $params);
+        list($rbody, $rcode, $myApiKey) = $this->_requestRaw($meth, $url, $params);
 
-    	$resp = $this->_interpretResponse($rbody, $rcode);
-		//$resultArray = json_decode($rbody);
-		//return $resultArray;
-		return $rbody;
+        $resp = $this->_interpretResponse($rbody, $rcode);
+        //$resultArray = json_decode($rbody);
+        //return $resultArray;
+        return $rbody;
 
 
 
@@ -108,15 +108,15 @@ class SureDone_ApiRequestor {
 
     private function _requestRaw2($meth, $url, $params, $json_encode = false) {
 
-		$myauthToken = "";
-		// token is not needed for auth request
-		if ( !self::endsWith ($url,"auth") ) {
-			$myauthToken = $this->_authToken;
-			if (!$myauthToken)
-				$myauthToken = SureDone::$authToken;
-			if (!$myauthToken)
-				throw new Exception('No Auth Token provided.');
-		}
+        $myauthToken = "";
+        // token is not needed for auth request
+        if ( !self::endsWith ($url,"auth") ) {
+            $myauthToken = $this->_authToken;
+            if (!$myauthToken)
+                $myauthToken = SureDone::$authToken;
+            if (!$myauthToken)
+                throw new Exception('No Auth Token provided.');
+        }
 
         $absUrl = $this->apiUrl($url);
         $params = self::_encodeObjects($params);
@@ -127,91 +127,91 @@ class SureDone_ApiRequestor {
             'lang_version' => $langVersion,
             'publisher' => 'SureDone',
             'uname' => $uname);
-		if ( !self::endsWith ($url,"auth") ) {
+        if ( !self::endsWith ($url,"auth") ) {
         $headers =
                     'Content-Type: multipart/form-data' . PHP_EOL .
                     'X-Auth-User: ' . $this->_user  . ' ' . PHP_EOL .
                     'X-Auth-Token: ' . $myauthToken . '' ;
-		} else {
+        } else {
         $headers =
                     'Content-Type:application/x-www-form-urlencoded';
-		}
+        }
 
-		if ( $json_encode ) {
-		$request_content = json_encode($params);
-		} else {
-		$request_content = http_build_query($params);
-		}
+        if ( $json_encode ) {
+        $request_content = json_encode($params);
+        } else {
+        $request_content = http_build_query($params);
+        }
 
-		$options = array(
-			'http' => array(
-				'header'  => $headers,
-				'method'  => $meth,
-				'content' => $request_content,
-			),
-		);
-		$context  = stream_context_create($options);
+        $options = array(
+            'http' => array(
+                'header'  => $headers,
+                'method'  => $meth,
+                'content' => $request_content,
+            ),
+        );
+        $context  = stream_context_create($options);
 
-		try {
-				$result = file_get_contents($absUrl, false, $context);
-		}
-		catch (ErrorException $e) {
-			throw new SureDone_ApiConnectionError($e->getMessage());
-		}
-		$resultArray = json_decode($result);
-		return $resultArray;
+        try {
+                $result = file_get_contents($absUrl, false, $context);
+        }
+        catch (ErrorException $e) {
+            throw new SureDone_ApiConnectionError($e->getMessage());
+        }
+        $resultArray = json_decode($result);
+        return $resultArray;
     }
 
 
   private function _requestRaw($meth, $url, $params)
   {
 
-		$myauthToken = "";
-		// token is not needed for auth request
-		if ( !self::endsWith ($url,"auth") ) {
-			$myauthToken = $this->_authToken;
-			if (!$myauthToken)
-				$myauthToken = SureDone::$authToken;
-			if (!$myauthToken)
-				throw new Exception('No Auth Token provided.');
-		}
+        $myauthToken = "";
+        // token is not needed for auth request
+        if ( !self::endsWith ($url,"auth") ) {
+            $myauthToken = $this->_authToken;
+            if (!$myauthToken)
+                $myauthToken = SureDone::$authToken;
+            if (!$myauthToken)
+                throw new Exception('No Auth Token provided.');
+        }
 
     $absUrl = $this->apiUrl($url);
     $params = self::_encodeObjects($params);
     $langVersion = phpversion();
     $uname = php_uname();
     $ua = array('bindings_version' => SureDone::VERSION,
-		'lang' => 'php',
-		'lang_version' => $langVersion,
-		'publisher' => 'stripe',
-		'uname' => $uname);
+        'lang' => 'php',
+        'lang_version' => $langVersion,
+        'publisher' => 'stripe',
+        'uname' => $uname);
 
 
-	if ( !self::endsWith ($url,"auth") ) {
-	$headers =
-				array('Content-Type: multipart/form-data',
-				'X-Auth-User: ' . $this->_user  . ' ',
-				'X-Auth-Token: ' . $myauthToken . '');
-	} else {
-	$headers =
-				array('Content-Type:application/x-www-form-urlencoded');
-	}
+    if ( !self::endsWith ($url,"auth") ) {
+    $headers =
+                array('Content-Type: multipart/form-data',
+                'X-Auth-User: ' . $this->_user  . ' ',
+                'X-Auth-Token: ' . $myauthToken . '');
+    } else {
+    $headers =
+                array('Content-Type:application/x-www-form-urlencoded');
+    }
 
     list($rbody, $rcode) = $this->_curlRequest($meth, $absUrl, $headers, $params);
 
 
-	return array($rbody, $rcode, $myauthToken);
+    return array($rbody, $rcode, $myauthToken);
   }
 
-	private function endsWith($haystack, $needle)
-	{
-		$length = strlen($needle);
-		if ($length == 0) {
-			return true;
-		}
+    private function endsWith($haystack, $needle)
+    {
+        $length = strlen($needle);
+        if ($length == 0) {
+            return true;
+        }
 
-		return (substr($haystack, -$length) === $needle);
-	}
+        return (substr($haystack, -$length) === $needle);
+    }
 
   private function _interpretResponse($rbody, $rcode)
   {
@@ -235,8 +235,8 @@ class SureDone_ApiRequestor {
     if ($meth == 'get') {
       $opts[CURLOPT_HTTPGET] = 1;
       if (count($params) > 0) {
-	$encoded = self::encode($params);
-	$absUrl = "$absUrl?$encoded";
+    $encoded = self::encode($params);
+    $absUrl = "$absUrl?$encoded";
       }
     } else if ($meth == 'post') {
       $opts[CURLOPT_POST] = 1;
@@ -247,8 +247,8 @@ class SureDone_ApiRequestor {
     } else if ($meth == 'delete')  {
       $opts[CURLOPT_CUSTOMREQUEST] = 'DELETE';
       if (count($params) > 0) {
-	$encoded = self::encode($params);
-	$absUrl = "$absUrl?$encoded";
+    $encoded = self::encode($params);
+    $absUrl = "$absUrl?$encoded";
       }
     } else {
       throw new SureDone_ApiError("Unrecognized method $meth");
@@ -269,9 +269,9 @@ class SureDone_ApiRequestor {
 
     $errno = curl_errno($curl);
     if ($errno == CURLE_SSL_CACERT ||
-	$errno == CURLE_SSL_PEER_CERTIFICATE ||
-	$errno == 77 // CURLE_SSL_CACERT_BADFILE (constant not defined in PHP though)
-	) {
+    $errno == CURLE_SSL_PEER_CERTIFICATE ||
+    $errno == 77 // CURLE_SSL_CACERT_BADFILE (constant not defined in PHP though)
+    ) {
       array_push($headers, 'X-SureDone-Client-Info: {"ca":"using SureDone-supplied CA bundle"}');
       curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($curl, CURLOPT_CAINFO,
