@@ -20,21 +20,25 @@ $username = 'yd';
 /** code below nicely adds product to SD. The same should work for category but somehow does not */
 $params = array(
     'identifier' 	=> 'order',
-    'order' 		=> 'M00002',
+    'order' 		=> 'M888',
     'total' 		=> '100.00',
     'email' 		=> 'michal@arabel.la',
     'bcountry' 		=> 'US',
     'blastname' 	=> 'Michal M.',
-    'items' =>	[
-        [
-        'title'=>'iphone 4','price'=>99.99,'quantity'=>1,
-        'image'=>'http://assets.suredone.com/1019/media-pics/md382lla-apple-iphone-4s-with-64gb-memory-mobile-phone-white.jpg',
-        'url'=>'http://demo.suredone.com/iphone-4-md382lla','weight'=>1,'boxlength'=>1,'boxheight'=>0.5,'boxlength'=>3
-        ]
-    ]
+    'items'			=> 'qwe*asd*zxc',
+    'prices'		=> '12.99*12.99*12.99',
+    'titles'		=> 'qwe*asd*zxc',
+    'qtys'			=> '1*1*1',
+//     'items' =>	[
+//         [
+//         'title'=>'iphone 4','price'=>99.99,'quantity'=>1,
+//         'image'=>'http://assets.suredone.com/1019/media-pics/md382lla-apple-iphone-4s-with-64gb-memory-mobile-phone-white.jpg',
+//         'url'=>'http://demo.suredone.com/iphone-4-md382lla','weight'=>1,'boxlength'=>1,'boxheight'=>0.5,'boxlength'=>3
+//         ]
+//     ]
 );
 try{
-    $result = SureDone_Store::post_editor_data('orders', 'add', $params, $token, $username);
+    $result = SureDone_Store::put_order($params, $token, $username);
     echo '<pre>';
     var_dump(json_decode($result));
 }catch(SoapFault $fault){
